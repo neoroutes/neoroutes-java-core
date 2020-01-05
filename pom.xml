@@ -7,6 +7,19 @@
     <groupId>project.neoroutes</groupId>
     <artifactId>java-core</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>neoroutes-java-core</name>
+    <description>Core java classes, utils and helpers for neoroutes encryption, key exchange and etc </description>
+    <developers>
+        <developer>
+            <roles>
+                <role>Project Manager - Java Developer</role>
+            </roles>
+            <name>mrsgoldenretriever</name>
+            <organization>Neo Routes</organization>
+            <organizationUrl>https://github.com/neoroutes/</organizationUrl>
+            <url>https://github.com/mrsgoldenretriever</url>
+        </developer>
+    </developers>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j -->
