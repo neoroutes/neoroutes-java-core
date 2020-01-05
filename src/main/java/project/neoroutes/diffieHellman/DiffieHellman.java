@@ -21,7 +21,7 @@ public class DiffieHellman {
         KeyPairGenerator kpg = null;
         try {
             kpg = KeyPairGenerator.getInstance("EC");
-            kpg.initialize(128);
+            kpg.initialize(256);
             keyPair = kpg.generateKeyPair();
             publicKey = keyPair.getPublic();
         } catch (NoSuchAlgorithmException e) {

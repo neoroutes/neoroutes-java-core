@@ -7,20 +7,23 @@ import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.nio.ByteBuffer;
+import java.security.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class EncryptedSession {
     private final PublicKey receiverPublicKey;
+    private final DiffieHellman diffieHellman;
     private final String ALGO = "AES";;
     private KeyAgreement keyAgreement;
+    private byte[] derivedKey;
 
-    byte[] sharedSecret;
 
     public EncryptedSession(DiffieHellman diffieHellman, PublicKey receiverPublicKey) throws InvalidKeyException {
         this.receiverPublicKey = receiverPublicKey;
+        this.diffieHellman = diffieHellman;
         try {
             this.keyAgreement = KeyAgreement.getInstance("ECDH");
             this.keyAgreement.init(diffieHellman.getKeyPair().getPrivate());
@@ -30,11 +33,20 @@ public class EncryptedSession {
         init();
     }
 
-    public void init(){
+    private void init(){
         try {
             keyAgreement.doPhase(receiverPublicKey, true);
-            sharedSecret = keyAgreement.generateSecret();
-        } catch (InvalidKeyException e) {
+            byte[] sharedSecret = keyAgreement.generateSecret();
+            MessageDigest hash = MessageDigest.getInstance("SHA-256");
+            hash.update(sharedSecret);
+            // Simple deterministic ordering
+            List<ByteBuffer> keys = Arrays.asList(ByteBuffer.wrap(diffieHellman.getPublicKey().getEncoded()), ByteBuffer.wrap(receiverPublicKey.getEncoded()));
+            Collections.sort(keys);
+            hash.update(keys.get(0));
+            hash.update(keys.get(1));
+
+            derivedKey = hash.digest();
+        } catch (InvalidKeyException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -66,8 +78,8 @@ public class EncryptedSession {
         return encryptedData;
     }
 
-    protected Key generateKey() {
-        return new SecretKeySpec(sharedSecret, ALGO);
+    private Key generateKey() {
+        return new SecretKeySpec(derivedKey, ALGO);
     }
 
 }
