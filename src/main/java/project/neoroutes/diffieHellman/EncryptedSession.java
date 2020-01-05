@@ -6,6 +6,7 @@ import sun.misc.BASE64Encoder;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -43,9 +44,9 @@ public class EncryptedSession {
             Key key = generateKey();
             Cipher c = Cipher.getInstance(ALGO);
             c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encVal = c.doFinal(msg.getBytes());
+            byte[] encVal = c.doFinal(msg.getBytes("UTF-8"));
             return new BASE64Encoder().encode(encVal);
-        } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException e) {
+        } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return msg;
