@@ -16,7 +16,7 @@ import java.util.List;
 public class EncryptedSession {
     private final PublicKey receiverPublicKey;
     private final DiffieHellman diffieHellman;
-    private final String ALGO = "AES";;
+    private final String ALGO = "AES";
     private KeyAgreement keyAgreement;
     private byte[] derivedKey;
 
