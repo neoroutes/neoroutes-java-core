@@ -1,6 +1,5 @@
 package project.neoroutes.key;
 
-import project.neoroutes.CNGenerator;
 import sun.security.x509.*;
 
 import java.io.File;
