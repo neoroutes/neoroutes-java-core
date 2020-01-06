@@ -16,18 +16,17 @@ public class KeyGenerator {
     private final String password;
     private final String userId;
 
-    private KeyGenerator(String address, String userId, String password) throws IOException {
+    public KeyGenerator(String address, String userId, String password) throws IOException {
         this.password = password;
         this.userId = userId;
         File file = new File(address);
-        file.mkdirs();
         if(!file.exists()) {
             file.createNewFile();
         }
         fos = new FileOutputStream(file);
     }
 
-    public void generate(){
+    public KeyStore generate(){
         KeyPairGenerator keyPairGenerator = null;
         try {
             keyPairGenerator = KeyPairGenerator.getInstance("RSA");
@@ -38,9 +37,11 @@ public class KeyGenerator {
             keyStore.load(null, null);
             keyStore.setKeyEntry("main", keyPair.getPrivate(), password.toCharArray(), chain);
             keyStore.store(fos, password.toCharArray());
+            return keyStore;
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private X509Certificate generateCertificate(String dn, KeyPair keyPair, int validity, String sigAlgName) throws GeneralSecurityException, IOException {
