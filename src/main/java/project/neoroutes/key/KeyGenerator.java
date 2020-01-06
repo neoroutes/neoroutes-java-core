@@ -11,7 +11,6 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 
 public class KeyGenerator {
-    private final FileOutputStream fos;
     private final String password;
     private final String userId;
     private final File file;
@@ -27,7 +26,6 @@ public class KeyGenerator {
         }else{
             fileExists = true;
         }
-        fos = new FileOutputStream(file);
     }
 
     public KeyStore generate(){
@@ -68,7 +66,9 @@ public class KeyGenerator {
 
     private KeyStore doGenerate(){
         KeyPairGenerator keyPairGenerator = null;
+        FileOutputStream fileOutputStream = null;
         try {
+            fileOutputStream = new FileOutputStream(file);
             keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -76,10 +76,18 @@ public class KeyGenerator {
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
             keyStore.setKeyEntry("main", keyPair.getPrivate(), password.toCharArray(), chain);
-            keyStore.store(fos, password.toCharArray());
+            keyStore.store(fileOutputStream, password.toCharArray());
             return keyStore;
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
+        }finally {
+            if(fileOutputStream != null){
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
