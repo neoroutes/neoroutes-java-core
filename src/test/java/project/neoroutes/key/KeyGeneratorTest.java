@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static project.neoroutes.key.KeyGenerator.getValByAttributeTypeFromIssuerDN;
 
 class KeyGeneratorTest {
     private final KeyGenerator keyGenerator;
@@ -31,19 +32,8 @@ class KeyGeneratorTest {
         X509Certificate x509Certificate = (X509Certificate) certificate;
         String dn = x509Certificate.getIssuerDN().getName();
         String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");
-        assertEquals(CNGenerator.getCN(userId).replace("cn=", ""), CN);
+        assertEquals(CNGenerator.getCN(userId).replace("CN=", ""), CN);
     }
 
-    private String getValByAttributeTypeFromIssuerDN(String dn, String attributeType) {
-        String[] dnSplits = dn.split(",");
-        for (String dnSplit : dnSplits) {
-            if (dnSplit.contains(attributeType)) {
-                String[] cnSplits = dnSplit.trim().split("=");
-                if(cnSplits[1]!= null) {
-                    return cnSplits[1].trim();
-                }
-            }
-        }
-        return "";
-    }
+
 }
