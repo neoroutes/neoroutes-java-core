@@ -18,9 +18,11 @@ class KeyGeneratorTest {
     private final String keyAddress = "/tmp/key.jks";
     private final String keyPass = "123456";
     private final String userId = UUID.randomUUID().toString();
+    private final CNGenerator cnGenerator = new NeoRoutesCNGenerator(userId);
+
 
     KeyGeneratorTest() throws IOException {
-        keyGenerator = new KeyGenerator(keyAddress, userId, keyPass);
+        keyGenerator = new KeyGenerator(cnGenerator, keyAddress, keyPass);
     }
 
     @Test
@@ -32,7 +34,7 @@ class KeyGeneratorTest {
         X509Certificate x509Certificate = (X509Certificate) certificate;
         String dn = x509Certificate.getIssuerDN().getName();
         String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");
-        assertEquals(CNGenerator.getCN(userId).replace("CN=", ""), CN);
+        assertEquals(cnGenerator.generate().replace("cn=",""), CN);
     }
 
 

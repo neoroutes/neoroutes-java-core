@@ -13,15 +13,15 @@ import static project.neoroutes.helper.CertificateHelper.generateCertificate;
 import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFromIssuerDN;
 
 public class KeyGenerator {
+    private final CNGenerator cnGenerator;
     private final String password;
-    private final String userId;
     private final File file;
     private boolean fileExists = false;
 
 
-    public KeyGenerator(String address, String userId, String password) throws IOException {
+    public KeyGenerator(CNGenerator cnGenerator, String address, String password) throws IOException {
+        this.cnGenerator = cnGenerator;
         this.password = password;
-        this.userId = userId;
         this.file = new File(address);
         if(!file.exists()) {
             file.createNewFile();
@@ -46,7 +46,7 @@ public class KeyGenerator {
             X509Certificate x509Certificate = (X509Certificate) certificate;
             String dn = x509Certificate.getIssuerDN().getName();
             String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");
-            if ((CNGenerator.getCN(userId).replace("cn=", "").equals(CN))) {
+            if ((cnGenerator.generate().replace("cn=", "").equals(CN))) {
                 return true;
             }
         } catch (KeyStoreException e) {
@@ -74,7 +74,7 @@ public class KeyGenerator {
             keyPairGenerator = KeyPairGenerator.getInstance("RSA");
             keyPairGenerator.initialize(2048);
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            Certificate[] chain = {generateCertificate(CNGenerator.getCN(userId), keyPair, 365 * 10, "SHA256withRSA")};
+            Certificate[] chain = {generateCertificate(cnGenerator.generate(), keyPair, 365 * 10, "SHA256withRSA")};
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
             keyStore.setKeyEntry("main", keyPair.getPrivate(), password.toCharArray(), chain);

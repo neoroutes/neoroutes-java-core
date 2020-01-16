@@ -1,7 +1,6 @@
 package project.neoroutes.key;
 
-public class CNGenerator {
-    public static String getCN(String userId){
-        return "CN="+ userId + ".neoroutes";
-    }
+import project.neoroutes.Generator;
+
+public interface CNGenerator extends Generator<String> {
 }
