@@ -12,14 +12,14 @@ import java.security.cert.X509Certificate;
 import static project.neoroutes.helper.CertificateHelper.generateCertificate;
 import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFromIssuerDN;
 
-public class KeyGenerator {
+public class KeyStoreGenerator {
     private final CNGenerator cnGenerator;
     private final String password;
     private final File file;
     private boolean fileExists = false;
 
 
-    public KeyGenerator(CNGenerator cnGenerator, String address, String password) throws IOException {
+    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password) throws IOException {
         this.cnGenerator = cnGenerator;
         this.password = password;
         this.file = new File(address);

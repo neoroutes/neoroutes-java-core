@@ -13,21 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFromIssuerDN;
 
-class KeyGeneratorTest {
-    private final KeyGenerator keyGenerator;
+class KeyStoreGeneratorTest {
+    private final KeyStoreGenerator keyStoreGenerator;
     private final String keyAddress = "/tmp/key.jks";
     private final String keyPass = "123456";
     private final String userId = UUID.randomUUID().toString();
     private final CNGenerator cnGenerator = new NeoRoutesCNGenerator(userId);
 
 
-    KeyGeneratorTest() throws IOException {
-        keyGenerator = new KeyGenerator(cnGenerator, keyAddress, keyPass);
+    KeyStoreGeneratorTest() throws IOException {
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
     }
 
     @Test
     void generate() throws KeyStoreException {
-        KeyStore keyStore = keyGenerator.generate();
+        KeyStore keyStore = keyStoreGenerator.generate();
         assertNotNull(keyStore);
 
         Certificate certificate = keyStore.getCertificate("main");
