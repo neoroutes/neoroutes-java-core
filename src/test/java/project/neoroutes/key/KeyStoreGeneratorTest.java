@@ -2,6 +2,7 @@ package project.neoroutes.key;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -22,7 +23,8 @@ class KeyStoreGeneratorTest {
 
 
     KeyStoreGeneratorTest() throws IOException {
-        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        new File(keyAddress).delete();
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, userId);
     }
 
     @Test
@@ -30,7 +32,7 @@ class KeyStoreGeneratorTest {
         KeyStore keyStore = keyStoreGenerator.generate();
         assertNotNull(keyStore);
 
-        Certificate certificate = keyStore.getCertificate("main");
+        Certificate certificate = keyStore.getCertificate(userId);
         X509Certificate x509Certificate = (X509Certificate) certificate;
         String dn = x509Certificate.getIssuerDN().getName();
         String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");

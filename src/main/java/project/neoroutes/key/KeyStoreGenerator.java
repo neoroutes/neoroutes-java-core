@@ -15,14 +15,16 @@ import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFr
 public class KeyStoreGenerator {
     private final CNGenerator cnGenerator;
     private final String password;
+    private final String userId;
     private final File file;
     private boolean fileExists = false;
 
 
-    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password) throws IOException {
+    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password, String userId) throws IOException {
         this.cnGenerator = cnGenerator;
         this.password = password;
         this.file = new File(address);
+        this.userId = userId;
         if(!file.exists()) {
             file.createNewFile();
         }else{
@@ -30,7 +32,7 @@ public class KeyStoreGenerator {
         }
     }
 
-    public KeyStore generate(){
+    public synchronized KeyStore generate(){
         if(fileExists){
             KeyStore keyStore = getExistingKeyStore();
             if(keyStore != null && isValidKeyStore(keyStore)){
@@ -42,7 +44,7 @@ public class KeyStoreGenerator {
 
     private boolean isValidKeyStore(KeyStore keyStore) {
         try {
-            Certificate certificate = keyStore.getCertificate("main");
+            Certificate certificate = keyStore.getCertificate(userId);
             X509Certificate x509Certificate = (X509Certificate) certificate;
             String dn = x509Certificate.getIssuerDN().getName();
             String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");
@@ -77,8 +79,9 @@ public class KeyStoreGenerator {
             Certificate[] chain = {generateCertificate(cnGenerator.generate(), keyPair, 365 * 10, "SHA256withRSA")};
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
-            keyStore.setKeyEntry("main", keyPair.getPrivate(), password.toCharArray(), chain);
+            keyStore.setKeyEntry(userId, keyPair.getPrivate(), password.toCharArray(), chain);
             keyStore.store(fileOutputStream, password.toCharArray());
+            this.fileExists  = true;
             return keyStore;
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
