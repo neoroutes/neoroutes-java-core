@@ -103,6 +103,22 @@ public class KeyStoreWrapperTest {
         assertTrue(keyStoreWrapper2.getCertificatesMap().containsKey(uuid));
     }
 
+    @Test
+    public void deleteCertificate() throws GeneralSecurityException, IOException {
+        deleteFile();
+        String uuid = UUID.randomUUID().toString();
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        X509Certificate certificate = CertificateHelper.generateCertificate(new NeoRoutesCNGenerator(uuid).generate(), keyPair, 365, "SHA256withRSA");
+
+        KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(keyStore, keyAddress, keyPass);
+        keyStoreWrapper.addCertificate(certificate, uuid);
+
+        keyStoreWrapper.deleteCertificate(uuid);
+        assertEquals(1, keyStoreWrapper.getCertificatesList().size());
+    }
+
     private void deleteFile(){
         new File(keyAddress).delete();
     }

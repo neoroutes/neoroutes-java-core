@@ -21,9 +21,18 @@ public class KeyStoreWrapper {
 
     public synchronized void addCertificate(Certificate certificate, String userId) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
         keyStore.setCertificateEntry(userId, certificate);
+        store();
+    }
+
+    private void store() throws IOException, CertificateException, NoSuchAlgorithmException, KeyStoreException {
         FileOutputStream fileOutputStream = new FileOutputStream(new File(address));
         keyStore.store(fileOutputStream, password.toCharArray());
         fileOutputStream.close();
+    }
+
+    public void deleteCertificate(String userId) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
+        keyStore.deleteEntry(userId);
+        store();
     }
 
     public void addCertificate(String base64, String userId) throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException {
