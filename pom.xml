@@ -6,7 +6,7 @@
 
     <groupId>project.neoroutes</groupId>
     <artifactId>java-core</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>neoroutes-java-core</name>
     <description>Core java classes, utils and helpers for neoroutes encryption, key exchange and etc </description>
     <developers>

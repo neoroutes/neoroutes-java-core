@@ -1,5 +1,7 @@
 package project.neoroutes.key;
 
+import project.neoroutes.Generator;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,7 +14,7 @@ import java.security.cert.X509Certificate;
 import static project.neoroutes.helper.CertificateHelper.generateCertificate;
 import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFromIssuerDN;
 
-public class KeyStoreGenerator {
+public class KeyStoreGenerator implements Generator<KeyStore> {
     private final CNGenerator cnGenerator;
     private final String password;
     private final String userId;
