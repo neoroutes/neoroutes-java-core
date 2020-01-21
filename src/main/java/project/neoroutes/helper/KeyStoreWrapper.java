@@ -46,6 +46,10 @@ public class KeyStoreWrapper {
         addCertificate(cert, userId);
     }
 
+    public Certificate getCertificate(String alias) throws KeyStoreException {
+        return keyStore.getCertificate(alias);
+    }
+
     public List<Certificate> getCertificatesList() throws KeyStoreException {
         Enumeration<String> aliases = keyStore.aliases();
         List<Certificate> certificates = new ArrayList<>();

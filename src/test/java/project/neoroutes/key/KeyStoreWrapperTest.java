@@ -8,6 +8,7 @@ import sun.misc.BASE64Encoder;
 import java.io.File;
 import java.io.IOException;
 import java.security.*;
+import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.UUID;
 
@@ -117,6 +118,21 @@ public class KeyStoreWrapperTest {
 
         keyStoreWrapper.deleteCertificate(uuid);
         assertEquals(1, keyStoreWrapper.getCertificatesList().size());
+    }
+
+    @Test
+    public void getCertificate() throws GeneralSecurityException, IOException {
+        deleteFile();
+        String uuid = UUID.randomUUID().toString();
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        X509Certificate certificate = CertificateHelper.generateCertificate(new NeoRoutesCNGenerator(uuid).generate(), keyPair, 365, "SHA256withRSA");
+        KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(keyStore, keyAddress, keyPass);
+        keyStoreWrapper.addCertificate(certificate, uuid);
+
+        Certificate certificate1 = keyStoreWrapper.getCertificate(uuid);
+        assertEquals(certificate, certificate1);
     }
 
     private void deleteFile(){
