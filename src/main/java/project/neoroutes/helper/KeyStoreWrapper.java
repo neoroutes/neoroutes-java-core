@@ -69,4 +69,8 @@ public class KeyStoreWrapper {
         }
         return certificates;
     }
+
+    public KeyStore getKeyStore(){
+        return keyStore;
+    }
 }

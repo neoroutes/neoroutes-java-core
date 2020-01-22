@@ -2,13 +2,15 @@ package project.neoroutes.diffieHellman;
 
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
 @Getter
-public class DiffieHellman {
+public class DiffieHellman implements Serializable {
+    public static final long serialVersionUID = 100L;
     private PublicKey publicKey;
     private KeyPair keyPair;
 

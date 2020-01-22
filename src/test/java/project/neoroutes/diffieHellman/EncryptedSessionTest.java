@@ -38,6 +38,6 @@ class EncryptedSessionTest {
     @Test
     void messageEqualityTest(){
         assertEquals(encryptedSession1.encrypt(sample), encryptedSession2.encrypt(sample));
-        System.out.println("Keys are equal");
+        System.out.println("Messages are equal");
     }
 }
