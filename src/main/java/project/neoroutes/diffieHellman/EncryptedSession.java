@@ -1,7 +1,6 @@
 package project.neoroutes.diffieHellman;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -57,7 +56,7 @@ public class EncryptedSession {
             Cipher c = Cipher.getInstance(ALGO);
             c.init(Cipher.ENCRYPT_MODE, key);
             byte[] encVal = c.doFinal(msg.getBytes("UTF-8"));
-            return new BASE64Encoder().encode(encVal);
+            return new String(new Base64().encode(encVal), "UTF-8");
         } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -69,10 +68,10 @@ public class EncryptedSession {
             Key key = generateKey();
             Cipher c = Cipher.getInstance(ALGO);
             c.init(Cipher.DECRYPT_MODE, key);
-            byte[] decodedValue = new BASE64Decoder().decodeBuffer(encryptedData);
+            byte[] decodedValue = new Base64().decode(encryptedData);
             byte[] decValue = c.doFinal(decodedValue);
             return new String(decValue);
-        } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | IOException e) {
+        } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return encryptedData;

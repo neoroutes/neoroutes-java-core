@@ -1,7 +1,7 @@
 package project.neoroutes.helper;
 
 import lombok.AllArgsConstructor;
-import sun.misc.BASE64Decoder;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
 import java.security.KeyStore;
@@ -36,7 +36,7 @@ public class KeyStoreWrapper {
     }
 
     public void addCertificate(String base64, String userId) throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException {
-        byte[] decodedValue = new BASE64Decoder().decodeBuffer(base64);
+        byte[] decodedValue = new Base64().decode(base64);
         addCertificate(decodedValue, userId);
     }
     public void addCertificate(byte[] bytes, String userId) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException {
