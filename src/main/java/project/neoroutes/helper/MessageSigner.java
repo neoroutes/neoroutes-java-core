@@ -27,7 +27,7 @@ public class MessageSigner {
 
             cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            return cipher.doFinal(message);
+            return cipher.doFinal(messageHash);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | BadPaddingException | IllegalBlockSizeException ignored) {
             return null;
         }

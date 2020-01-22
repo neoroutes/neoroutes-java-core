@@ -38,12 +38,12 @@ public class SignatureTest {
 
 
     SignatureTest() throws IOException, InvalidKeyException {
+        new File(keyAddress).delete();
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, userId);
         DiffieHellman dh1 = new DiffieHellman();
         DiffieHellman dh2 = new DiffieHellman();
         this.encryptedSession1 = new EncryptedSession(dh1, dh2.getPublicKey());
         this.encryptedSession2 = new EncryptedSession(dh2, dh1.getPublicKey());
-        new File(keyAddress).delete();
-        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, userId);
     }
 
     @Test
