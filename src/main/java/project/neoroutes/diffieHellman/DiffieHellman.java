@@ -7,6 +7,8 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Getter
 public class DiffieHellman implements Serializable {
@@ -29,5 +31,19 @@ public class DiffieHellman implements Serializable {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiffieHellman that = (DiffieHellman) o;
+        return Arrays.equals(publicKey.getEncoded(), that.publicKey.getEncoded()) &&
+                Arrays.equals(keyPair.getPrivate().getEncoded(), that.keyPair.getPrivate().getEncoded());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(publicKey, keyPair);
     }
 }
