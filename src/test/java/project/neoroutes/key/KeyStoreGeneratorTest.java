@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFromIssuerDN;
 
-class KeyStoreGeneratorTest {
+public class KeyStoreGeneratorTest {
     private final KeyStoreGenerator keyStoreGenerator;
     private final String keyAddress = "/tmp/key.jks";
     private final String keyPass = "123456";
@@ -22,13 +22,13 @@ class KeyStoreGeneratorTest {
     private final CNGenerator cnGenerator = new NeoRoutesCNGenerator(userId);
 
 
-    KeyStoreGeneratorTest() throws IOException {
+    public KeyStoreGeneratorTest() throws IOException {
         new File(keyAddress).delete();
         keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, userId);
     }
 
     @Test
-    void generate() throws KeyStoreException {
+    public void generate() throws KeyStoreException {
         KeyStore keyStore = keyStoreGenerator.generate();
         assertNotNull(keyStore);
 

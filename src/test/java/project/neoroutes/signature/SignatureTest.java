@@ -37,7 +37,7 @@ public class SignatureTest {
     private final EncryptedSession encryptedSession2;
 
 
-    SignatureTest() throws IOException, InvalidKeyException {
+    public SignatureTest() throws IOException, InvalidKeyException {
         new File(keyAddress).delete();
         keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, userId);
         DiffieHellman dh1 = new DiffieHellman();

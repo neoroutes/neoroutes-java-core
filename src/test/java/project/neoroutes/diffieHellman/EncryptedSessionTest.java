@@ -7,7 +7,7 @@ import java.security.InvalidKeyException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class EncryptedSessionTest {
+public class EncryptedSessionTest {
     private final EncryptedSession encryptedSession1;
     private final EncryptedSession encryptedSession2;
     private final String sample = "The message to encrypt";
@@ -21,14 +21,14 @@ class EncryptedSessionTest {
     }
 
     @Test
-    void encrypt() {
+    public void encrypt() {
         this.encryptedMessage = encryptedSession1.encrypt(sample);
         assertNotEquals(encryptedMessage, sample);
         System.out.println("Encrypted Text: "+ this.encryptedMessage);
     }
 
     @Test
-    void decrypt() {
+    public void decrypt() {
         encrypt();
         String decrypt = encryptedSession1.decrypt(this.encryptedMessage);
         assertEquals(decrypt, sample);
@@ -36,7 +36,7 @@ class EncryptedSessionTest {
     }
 
     @Test
-    void messageEqualityTest(){
+    public void messageEqualityTest(){
         assertEquals(encryptedSession1.encrypt(sample), encryptedSession2.encrypt(sample));
         System.out.println("Messages are equal");
     }
