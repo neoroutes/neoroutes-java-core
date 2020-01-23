@@ -12,3 +12,16 @@ NeoRoutes uses Diffie-Hellman to perform an end-to-end key exchange. This (tempo
 - *How?* [look](https://github.com/neoroutes/neoroutes-java-core/tree/master/src/main/java/project/neoroutes/diffieHellman)
 - *Show me a simple test?* [look](https://github.com/neoroutes/neoroutes-java-core/blob/master/src/test/java/project/neoroutes/diffieHellman/EncryptedSessionTest.java)
 
+### Encrypted Sessions
+
+Encrypted Session class attaches to a session and uses diffie hellman key agreement to encrypt data.
+
+### AES File Encryption
+
+In other to back-up the neoroutes data and reuse it in other devices, user first needs to encrypt the data. AES File Encryption helps user in this process.
+
+### Generators
+
+Generator is an interface to generate different kind of data, mostly for initializing neo-routes in the device.
+
+For example, `KeyStoreGenerator` generates initial keystore which holds user public and private keys.
