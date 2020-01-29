@@ -46,7 +46,7 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
 
     private boolean isValidKeyStore(KeyStore keyStore) {
         try {
-            Certificate certificate = keyStore.getCertificate(userId);
+            Certificate certificate = keyStore.getCertificate("main");
             X509Certificate x509Certificate = (X509Certificate) certificate;
             String dn = x509Certificate.getIssuerDN().getName();
             String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");
@@ -81,7 +81,7 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
             Certificate[] chain = {generateCertificate(cnGenerator.generate(), keyPair, 365 * 10, "SHA256withRSA")};
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
-            keyStore.setKeyEntry(userId, keyPair.getPrivate(), password.toCharArray(), chain);
+            keyStore.setKeyEntry("main", keyPair.getPrivate(), password.toCharArray(), chain);
             keyStore.store(fileOutputStream, password.toCharArray());
             this.fileExists  = true;
             return keyStore;
