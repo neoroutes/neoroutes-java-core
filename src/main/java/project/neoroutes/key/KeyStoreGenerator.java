@@ -52,7 +52,7 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
                 return true;
             }
         } catch (KeyStoreException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Invalid password", e);
         }
         return false;
     }
