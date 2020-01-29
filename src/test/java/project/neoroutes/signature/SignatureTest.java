@@ -49,9 +49,9 @@ public class SignatureTest {
     @Test
     public void testSignature() throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
         KeyStore keyStore = keyStoreGenerator.generate();
-        PrivateKeyProvider privateKeyProvider = new PrivateKeyProvider(keyStore, keyPass, userId);
+        PrivateKeyProvider privateKeyProvider = new PrivateKeyProvider(keyStore, keyPass);
         PrivateKey privateKey = privateKeyProvider.getPrivateKey();
-        Certificate certificate = new KeyStoreWrapper(keyStore, keyAddress, keyPass).getCertificate(userId);
+        Certificate certificate = new KeyStoreWrapper(keyStore, keyAddress, keyPass).getCertificate("main");
         PublicKey publicKey = certificate.getPublicKey();
 
         System.out.println(new String(privateKey.getEncoded(), StandardCharsets.UTF_8));
