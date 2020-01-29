@@ -1,6 +1,6 @@
 package project.neoroutes.helper;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
@@ -14,7 +14,7 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class KeyStoreWrapper {
     private final KeyStore keyStore;
     private final String address;
