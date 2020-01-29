@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 import java.io.*;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -18,6 +19,9 @@ public class KeyStoreWrapper {
     private final KeyStore keyStore;
     private final String address;
     private final String password;
+    private String publicKeyHash;
+
+
 
     public synchronized void addCertificate(Certificate certificate, String userId) throws KeyStoreException, IOException, CertificateException, NoSuchAlgorithmException {
         keyStore.setCertificateEntry(userId, certificate);
@@ -72,5 +76,19 @@ public class KeyStoreWrapper {
 
     public KeyStore getKeyStore(){
         return keyStore;
+    }
+
+    public synchronized String getPublicKeyHash(){
+        if(publicKeyHash == null){
+            try {
+                Certificate certificate = getCertificate("main");
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                publicKeyHash = new Base64().encodeAsString(md.digest(certificate.getPublicKey().getEncoded()));
+            } catch (NoSuchAlgorithmException | KeyStoreException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return publicKeyHash;
     }
 }
