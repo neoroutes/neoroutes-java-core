@@ -17,16 +17,14 @@ import static project.neoroutes.helper.CertificateHelper.getValByAttributeTypeFr
 public class KeyStoreGenerator implements Generator<KeyStore> {
     private final CNGenerator cnGenerator;
     private final String password;
-    private final String userId;
     private final File file;
     private boolean fileExists = false;
 
 
-    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password, String userId) throws IOException {
+    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password) throws IOException {
         this.cnGenerator = cnGenerator;
         this.password = password;
         this.file = new File(address);
-        this.userId = userId;
         if(!file.exists()) {
             file.createNewFile();
         }else{
