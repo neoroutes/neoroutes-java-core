@@ -39,7 +39,7 @@ public class SignatureTest {
 
     public SignatureTest() throws IOException, InvalidKeyException {
         new File(keyAddress).delete();
-        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, userId);
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
         DiffieHellman dh1 = new DiffieHellman();
         DiffieHellman dh2 = new DiffieHellman();
         this.encryptedSession1 = new EncryptedSession(dh1, dh2.getPublicKey());
