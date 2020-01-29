@@ -32,7 +32,7 @@ public class KeyStoreGeneratorTest {
         KeyStore keyStore = keyStoreGenerator.generate();
         assertNotNull(keyStore);
 
-        Certificate certificate = keyStore.getCertificate(userId);
+        Certificate certificate = keyStore.getCertificate("main");
         X509Certificate x509Certificate = (X509Certificate) certificate;
         String dn = x509Certificate.getIssuerDN().getName();
         String CN = getValByAttributeTypeFromIssuerDN(dn,"CN=");
