@@ -52,7 +52,7 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
                 return true;
             }
         } catch (KeyStoreException e) {
-            throw new RuntimeException("Invalid password", e);
+            e.printStackTrace();
         }
         return false;
     }
@@ -63,9 +63,8 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
             keyStore.load(new FileInputStream(file), password.toCharArray());
             return keyStore;
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Could not load existing key. Is password right?", e);
         }
-        return null;
     }
 
     private KeyStore doGenerate(){
