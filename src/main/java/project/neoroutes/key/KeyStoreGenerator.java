@@ -1,5 +1,6 @@
 package project.neoroutes.key;
 
+import com.sun.istack.internal.Nullable;
 import project.neoroutes.Generator;
 
 import java.io.File;
@@ -21,8 +22,8 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
     private final KeyPair keyPair;
     private boolean fileExists = false;
 
-
-    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password, KeyPair keyPair) throws IOException {
+    /* Accepts null keypair when keystore file already exists */
+    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password, @Nullable KeyPair keyPair) throws IOException {
         this.cnGenerator = cnGenerator;
         this.password = password;
         this.file = new File(address);

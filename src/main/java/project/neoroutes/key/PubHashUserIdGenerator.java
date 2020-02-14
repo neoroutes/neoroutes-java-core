@@ -1,5 +1,6 @@
 package project.neoroutes.key;
 
+import com.sun.istack.internal.Nullable;
 import org.apache.commons.codec.binary.Base64;
 import project.neoroutes.Generator;
 
@@ -20,7 +21,8 @@ public class PubHashUserIdGenerator implements Generator<String> {
     private String uuid;
     private String filePath;
 
-    public PubHashUserIdGenerator(String filePath, PublicKey publicKey) {
+    /* Accepts null publicKey when keystore file already exists */
+    public PubHashUserIdGenerator(String filePath, @Nullable PublicKey publicKey) {
         this.publicKey = publicKey;
         this.filePath = filePath;
         init();
