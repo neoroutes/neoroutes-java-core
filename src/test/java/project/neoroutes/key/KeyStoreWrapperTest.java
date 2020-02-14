@@ -29,7 +29,7 @@ public class KeyStoreWrapperTest {
 
     public KeyStoreWrapperTest() throws IOException {
         deleteFile();
-        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, new KeyGenerator().generate());
         keyStore = keyStoreGenerator.generate();
     }
 
@@ -45,7 +45,7 @@ public class KeyStoreWrapperTest {
         KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(keyStore, keyAddress, keyPass);
         keyStoreWrapper.addCertificate(certificate, uuid);
 
-        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, keyPair);
         KeyStore keyStore2 = keyStoreGenerator2.generate();
         KeyStoreWrapper keyStoreWrapper2 = new KeyStoreWrapper(keyStore2, keyAddress, keyPass);
         assertEquals(keyStoreWrapper2.getCertificatesList().size(), 2);
@@ -64,7 +64,7 @@ public class KeyStoreWrapperTest {
         KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(keyStore, keyAddress, keyPass);
         keyStoreWrapper.addCertificate(certificate.getEncoded(), uuid);
 
-        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, keyPair);
         KeyStore keyStore2 = keyStoreGenerator2.generate();
         KeyStoreWrapper keyStoreWrapper2 = new KeyStoreWrapper(keyStore2, keyAddress, keyPass);
         assertEquals(keyStoreWrapper2.getCertificatesList().size(), 2);
@@ -82,7 +82,7 @@ public class KeyStoreWrapperTest {
         KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(keyStore, keyAddress, keyPass);
         keyStoreWrapper.addCertificate(new String(new Base64().encode(certificate.getEncoded()), "UTF-8"), uuid);
 
-        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, keyPair);
         KeyStore keyStore2 = keyStoreGenerator2.generate();
         KeyStoreWrapper keyStoreWrapper2 = new KeyStoreWrapper(keyStore2, keyAddress, keyPass);
         assertEquals(keyStoreWrapper2.getCertificatesList().size(), 2);
@@ -100,7 +100,7 @@ public class KeyStoreWrapperTest {
         KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(keyStore, keyAddress, keyPass);
         keyStoreWrapper.addCertificate(certificate, uuid);
 
-        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        KeyStoreGenerator keyStoreGenerator2 = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, keyPair);
         KeyStore keyStore2 = keyStoreGenerator2.generate();
         KeyStoreWrapper keyStoreWrapper2 = new KeyStoreWrapper(keyStore2, keyAddress, keyPass);
         System.out.println(keyStoreWrapper2.getCertificatesMap());

@@ -24,7 +24,7 @@ public class KeyStoreGeneratorTest {
 
     public KeyStoreGeneratorTest() throws IOException {
         new File(keyAddress).delete();
-        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, new KeyGenerator().generate());
     }
 
     @Test

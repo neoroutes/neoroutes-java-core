@@ -8,6 +8,7 @@ import project.neoroutes.helper.MessageSigner;
 import project.neoroutes.helper.PrivateKeyProvider;
 import project.neoroutes.helper.SignatureVerifier;
 import project.neoroutes.key.CNGenerator;
+import project.neoroutes.key.KeyGenerator;
 import project.neoroutes.key.KeyStoreGenerator;
 import project.neoroutes.key.NeoRoutesCNGenerator;
 
@@ -39,7 +40,7 @@ public class SignatureTest {
 
     public SignatureTest() throws IOException, InvalidKeyException {
         new File(keyAddress).delete();
-        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass);
+        keyStoreGenerator = new KeyStoreGenerator(cnGenerator, keyAddress, keyPass, new KeyGenerator().generate());
         DiffieHellman dh1 = new DiffieHellman();
         DiffieHellman dh2 = new DiffieHellman();
         this.encryptedSession1 = new EncryptedSession(dh1, dh2.getPublicKey());

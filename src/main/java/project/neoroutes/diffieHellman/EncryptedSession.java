@@ -4,8 +4,8 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,9 +54,9 @@ public class EncryptedSession {
             Key key = generateKey();
             Cipher c = Cipher.getInstance(ALGO);
             c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encVal = c.doFinal(msg.getBytes("UTF-8"));
-            return new String(new Base64().encode(encVal), "UTF-8");
-        } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            byte[] encVal = c.doFinal(msg.getBytes(StandardCharsets.UTF_8));
+            return new String(new Base64().encode(encVal), StandardCharsets.UTF_8);
+        } catch (BadPaddingException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return msg;

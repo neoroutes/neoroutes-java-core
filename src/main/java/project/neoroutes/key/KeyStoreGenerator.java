@@ -18,13 +18,15 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
     private final CNGenerator cnGenerator;
     private final String password;
     private final File file;
+    private final KeyPair keyPair;
     private boolean fileExists = false;
 
 
-    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password) throws IOException {
+    public KeyStoreGenerator(CNGenerator cnGenerator, String address, String password, KeyPair keyPair) throws IOException {
         this.cnGenerator = cnGenerator;
         this.password = password;
         this.file = new File(address);
+        this.keyPair = keyPair;
         if(!file.exists()) {
             file.createNewFile();
         }else{
@@ -68,13 +70,10 @@ public class KeyStoreGenerator implements Generator<KeyStore> {
     }
 
     private KeyStore doGenerate(){
-        KeyPairGenerator keyPairGenerator = null;
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
-            keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
             Certificate[] chain = {generateCertificate(cnGenerator.generate(), keyPair, 365 * 10, "SHA256withRSA")};
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null, null);
